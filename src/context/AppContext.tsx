@@ -1,14 +1,27 @@
-import {createContext, useState} from "react";
+import {createContext, useEffect, useState} from "react";
 import axios from "axios";
 import {toast} from "react-toastify";
 
 export const AppContent = createContext()
-
 export const AppContextProvider = (props) => {
 
     const backendUrl = import.meta.env.VITE_BACKEND_URL
     const [isLoggedIn,setIsLoggedIn]=useState(false)
     const [userData,setUserData]=useState(false)
+
+    const getAuthenticate=async ()=>{
+        try {
+            const {data} = await axios.get(backendUrl + '/api/auth/isAuth')
+            console.log('authenticate data', data)
+            if (data.success){
+                setIsLoggedIn(true);
+                getUserData();
+            }
+        } catch (error) {
+            const errorMessage = error?.response?.data?.message || 'Failed to authenticate';
+            toast.error(errorMessage);
+        }
+    }
 
     const getUserData=async ()=>{
         try {
@@ -24,11 +37,14 @@ export const AppContextProvider = (props) => {
         }
     }
 
+    useEffect(()=>{
+        getAuthenticate();
+    },[])
 
     const value = {
         backendUrl,
         isLoggedIn,setIsLoggedIn,
-        userData, setUserData,getUserData
+        userData, setUserData,getUserData,getAuthenticate
     }
     return (
         <AppContent.Provider value={value}>
