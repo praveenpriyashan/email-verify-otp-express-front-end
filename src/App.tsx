@@ -5,11 +5,14 @@ import Home from "./pages/Home.tsx";
 import EmailVerify from "./pages/EmailVerify.tsx";
 import PasswordReset from "./pages/PasswordReset.tsx";
 import Login from "./pages/Login.tsx";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
 
     return (
         <div className={'text-2xl'}>
+            <ToastContainer/>
             <Routes>
                 <Route path={'/'} element={<Home/>} />
                 <Route path={'/login'} element={<Login/>} />
