@@ -18,7 +18,7 @@ const Navbar = () => {
     } = useContext(AppContent)
 
     const logOut = async () => {
-        console.log('successfully in logout function')
+        console.log('successfully in logout method')
         try {
             axios.defaults.withCredentials = true;
             console.log('successfully use credentials')
@@ -67,7 +67,8 @@ const Navbar = () => {
                             <ul className={'list-none m-0 p-2 bg-gray-100 text-sm'}>
                                 {
                                     !userData.isAccountVerified &&
-                                    <li onClick={sendVerificationOtp} className={'py-1 px-2 hover:bg-gray-200 cursor-pointer'}>verify email</li>
+                                    <li onClick={sendVerificationOtp}
+                                        className={'py-1 px-2 hover:bg-gray-200 cursor-pointer'}>verify email</li>
                                 }
                                 <li onClick={logOut} className={'py-1 px-2 hover:bg-gray-200 cursor-pointer'}>Logout
                                 </li>

@@ -7,7 +7,6 @@ import {toast} from 'react-toastify'
 
 const Login = () => {
 
-
     const {backendUrl, isLoggedIn, setIsLoggedIn, userData, setUserData, getUserData} = useContext(AppContent)
     const [state, setState] = useState('Sign Up')
     const [name, setName] = useState('')
