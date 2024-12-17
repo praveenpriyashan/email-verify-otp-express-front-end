@@ -1,44 +1,54 @@
 import {useContext, useState} from "react";
 import {assets} from "../assets/assets";
-import { useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import {AppContent} from "../context/AppContext.tsx";
-import  axios from "axios";
+import axios from "axios";
 import {toast} from 'react-toastify'
 
 const Login = () => {
 
 
-    const {backendUrl,isLoggedIn,setIsLoggedIn,userData,setUserData,getUserData}= useContext(AppContent)
+    const {backendUrl, isLoggedIn, setIsLoggedIn, userData, setUserData, getUserData} = useContext(AppContent)
     const [state, setState] = useState('Sign Up')
     const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const navigate = useNavigate();
 
-    const onSubmitHandler = async (e):Promise<void> => {
+    const onSubmitHandler = async (e): Promise<void> => {
+        console.log('start the onSubmit handler fun in Login page  ')
         try {
             e.preventDefault();
-            axios.defaults.withCredentials=true;      //coockies
+            axios.defaults.withCredentials = true;      //coockies
+            console.log('set the credentials ')
             if (state === 'Sign Up') {
-               const {data}=await axios.post(backendUrl+'/api/auth/register',{name,email,password})
+                console.log('inside the the sign up if')
+                const {data} = await axios.post(backendUrl + '/api/auth/register', {name, email, password})
                 if (data.success) {
+                    console.log(' successful registration ')
                     setIsLoggedIn(true)
                     // setUserData(data.user)
                     getUserData()
                     navigate('/')
+                    console.log('setloggedIn=true, getUserdata function called ,navigate home')
                     toast.success('Sign-up successfully')
-                }else {
-                   toast.error(data.message)
+                } else {
+                    toast.error(data.message)
+                    console.log('error sign up')
                 }
-            }else {
-                const {data}=await axios.post(backendUrl+'/api/auth/login',{email,password})
+            } else {
+                console.log('inside the the login else')
+                const {data} = await axios.post(backendUrl + '/api/auth/login', {email, password})
                 if (data.success) {
                     setIsLoggedIn(true)
                     // setUserData(data.user)
+                    console.log('before call getUserData')
                     getUserData()
+                    console.log('end call getUserData')
                     navigate('/')
+                    console.log('setLoggedIn,getUserData function,navigate,Logged in successfully, ')
                     toast.success('Logged in successfully')
-                }else {
+                } else {
                     toast.error(data.message)
                 }
             }
@@ -104,9 +114,9 @@ const Login = () => {
                     </div>
 
                     <p className={'mb-4 text-indigo-500 cursor-pointer'} onClick={() => {
-                        navigate('/PasswordReset')
+                        navigate('/ResetPassword')
                     }}>Forgot password ?</p>
-                    <button className={'w-full rounded-full py-2.5 ' +
+                    <button type={"submit"} className={'w-full rounded-full py-2.5 ' +
                         'bg-gradient-to-r from-indigo-500 to-indigo-900 text-white font-medium'}>{state}
                     </button>
 

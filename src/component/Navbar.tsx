@@ -18,15 +18,38 @@ const Navbar = () => {
     } = useContext(AppContent)
 
     const logOut = async () => {
+        console.log('successfully in logout function')
         try {
             axios.defaults.withCredentials = true;
+            console.log('successfully use credentials')
             const {data} = await axios.post(backendUrl + '/api/auth/logout');
             data.success && setIsLoggedIn(false);
             data.success && setUserData(false);
             navigate('/')
+            console.log('successfully naviagt to home page and setloggedin=false,setUserData(false)')
+            toast.success('Logged out successfully')
         } catch (error) {
             const errorMessage = error?.response?.data?.message || 'Failed to log out';
             toast.error(errorMessage);
+        }
+    }
+
+    const sendVerificationOtp = async () => {
+        console.log('start verification otp email send')
+        try {
+            axios.defaults.withCredentials = true;
+            console.log('set the credentials')
+            const {data} = await axios.post(backendUrl + '/api/auth/send-verify-otp')
+            if (data.success) {
+                console.log('successfully calling api and get data')
+                navigate('/EmailVerify')
+                console.log('successfully naviagte to emailverify otp page')
+                toast.success('Verification OTP sent successfully')
+            } else {
+                toast.error(data.message)
+            }
+        } catch (error) {
+            toast.error(data.message)
         }
     }
 
@@ -44,9 +67,10 @@ const Navbar = () => {
                             <ul className={'list-none m-0 p-2 bg-gray-100 text-sm'}>
                                 {
                                     !userData.isAccountVerified &&
-                                    <li className={'py-1 px-2 hover:bg-gray-200 cursor-pointer'}>verify email</li>
+                                    <li onClick={sendVerificationOtp} className={'py-1 px-2 hover:bg-gray-200 cursor-pointer'}>verify email</li>
                                 }
-                                <li onClick={logOut} className={'py-1 px-2 hover:bg-gray-200 cursor-pointer'}>Logout</li>
+                                <li onClick={logOut} className={'py-1 px-2 hover:bg-gray-200 cursor-pointer'}>Logout
+                                </li>
                             </ul>
                         </div>
                     </div>

@@ -3,7 +3,7 @@ import './App.css'
 import { Route, Routes} from "react-router-dom";
 import Home from "./pages/Home.tsx";
 import EmailVerify from "./pages/EmailVerify.tsx";
-import PasswordReset from "./pages/PasswordReset.tsx";
+import ResetPassword from "./pages/ResetPassword.tsx";
 import Login from "./pages/Login.tsx";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -17,7 +17,7 @@ const App = () => {
                 <Route path={'/'} element={<Home/>} />
                 <Route path={'/login'} element={<Login/>} />
                 <Route path={'/emailVerify'} element={<EmailVerify/>} />
-                <Route path={'/resetPassword'} element={<PasswordReset/>} />
+                <Route path={'/resetPassword'} element={<ResetPassword/>} />
             </Routes>
         </div>
     )
